@@ -1,0 +1,43 @@
+@charset "iso-8859-1";
+
+a {
+    color: cornflowerblue;
+    text-decoration: none;
+}
+
+body {
+    font-family: "Helvetica", "Helvetica Neue", sans-serif;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.button {
+    background-color: cornflowerblue;
+    border: none;
+    color: white;
+    font-size: 14px;
+    margin: 0 5px;
+    padding: 3px 6px;
+    text-decoration: none;
+}
+
+.navBar {
+    position: fixed;
+    width: 300px;
+}
+
+.negative {
+    color: lightcoral;
+    font-weight: bold;
+}
+
+.positive {
+    color: yellowgreen;
+    font-weight: bold;
+}
+
+.tweetTable {
+    padding-left: 350px;
+}
