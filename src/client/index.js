@@ -24,9 +24,13 @@ class Landing extends React.Component {
             type: 'GET',
             data: {},
             success: function(data) {
-                let last_calculated = data[data.length - 1].id
-                let tweets = self.sentimentAnalysis(data);
-                self.setState({ tweets: tweets, last_calculated: last_calculated });
+                if (data.length === 0) {
+                    alert("No tweets");
+                } else {
+                    let last_calculated = data[data.length - 1].id
+                    let tweets = self.sentimentAnalysis(data);
+                    self.setState({ tweets: tweets, last_calculated: last_calculated });
+                }
                 
             },
             error: function(err) {
@@ -46,10 +50,13 @@ class Landing extends React.Component {
             type: 'GET',
             data: { max_id: self.state.last_calculated },
             success: function(data) {
-                let last_calculated = data[data.length - 1].id
-                let tweets = self.state.tweets.concat(self.sentimentAnalysis(data));
-                self.setState({ tweets: tweets , last_calculated: last_calculated });
-                
+                if (data.length === 0) {
+                    alert("No more tweets to show");
+                } else {
+                    let last_calculated = data[data.length - 1].id
+                    let tweets = self.state.tweets.concat(self.sentimentAnalysis(data));
+                    self.setState({ tweets: tweets , last_calculated: last_calculated });
+                }
             },
             error: function(err) {
                 console.log('error', err)
