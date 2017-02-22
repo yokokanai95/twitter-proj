@@ -12,7 +12,7 @@
 #### Design commentary
 I kept the functionality of the page minimal and focused on making sure my code was clean, efficient, and focused. I achieved this by making a number of decisions:
 
-1. I created a `Twit` instance in my server to simplify the API requests; as all requests must be authenticated (the app is registered), I can't simply run AJAX calls directly from my client-side code to the endpoints. Unfortunately, this means that each Twitter API request requires two AJAX calls (one from client to server, another from server to Twitter endpoint).
+1. I created a `Twit` instance in my server to simplify the API requests; as all requests must be authenticated using secret keys (the app is registered), I can't simply run AJAX calls directly from my client-side code to the endpoints. Unfortunately, this means that each Twitter API request requires two AJAX calls (one from client to server, another from server to Twitter endpoint).
 
 2. I kept it to just one React component. The functionality is simple, and I considered splitting it up into NavBar and Table components, but I found there wasn't a great way to do so while still keeping it visually intuitive; I kept the navigation bar visually fixed even while the table scrolls, but both components would need to keep track of the same data in order to show individual results on one side and aggregate data on the other. Splitting the components into two would have required putting the same state information into two different components and re-rendering everything at the same time anyway.
 
