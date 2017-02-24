@@ -1,5 +1,5 @@
 # twitter-proj
-## This is a small, one-page app I made using React, Node.js, Express, and [Twit (a JavaScript library for the Twitter API)](https://github.com/ttezel/twit)
+## This is a small SPA I made using React, Node.js, Express, and [Twit (a JavaScript library for the Twitter API)](https://github.com/ttezel/twit)
 
 #### Installation instructions
 1. Clone this repo and `cd` in.
