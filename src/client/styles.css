@@ -30,12 +30,14 @@ body {
 
 .negative {
     color: lightcoral;
-    font-weight: bold;
+}
+
+.neutral {
+    color: grey;
 }
 
 .positive {
     color: yellowgreen;
-    font-weight: bold;
 }
 
 .tweetTable {

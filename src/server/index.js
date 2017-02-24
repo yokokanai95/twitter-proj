@@ -6,7 +6,7 @@ let path            = require('path'),
     logger          = require('morgan'),
     twit            = require('twit');
 
-
+// Express app, view engine, logger
 let app = express();
 app.use(bodyParser.json({}));
 app.set('view engine', 'pug');
@@ -16,12 +16,15 @@ let staticPath = path.join(__dirname, '../../public');
 app.use(express.static(staticPath));
 app.use(logger('combined'));
 
+// Connect to Twitter API using Twit
 let twitter = new twit({
     consumer_key: "kwfjAyzPCO5qjvKbbB0EShUwr",
     consumer_secret: "ASK YOKO",
     app_only_auth: true
 });
 
+// GET a specific user's tweets
+// if max_id is declared, get tweets where ID < max_id
 app.get('/v1/user/:username/tweets', function(req, res) {
     console.log('REQUEST BEGINS');
     let params = { 
@@ -46,6 +49,7 @@ app.get('/v1/user/:username/tweets', function(req, res) {
         });
 });
 
+// Render base template
 app.get('*', function(req, res) {
     res.render('base', {
         title: 'TWITTER APP'

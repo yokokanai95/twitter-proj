@@ -10,15 +10,19 @@ class Landing extends React.Component {
         this.state = { username: '', tweets: [], last_calculated: 0 };
     }
 
+    // Called when form's username value changes
     handleChange(key, event) {
         this.setState({ username:  event.currentTarget.value });
     }
 
+    // Called when the form is submitted
     handleSearch(e) {
         e.preventDefault();
         console.log('handleSearch');
         let username = this.state.username;
         let self = this;
+
+        // AJAX call to grab newest tweets by username
         $.ajax({
             url: '/v1/user/' + username + '/tweets',
             type: 'GET',
@@ -27,6 +31,7 @@ class Landing extends React.Component {
                 if (data.length === 0) {
                     alert("No tweets");
                 } else {
+                    // Change state to hold tweets, as well as ID of the oldest tweet
                     let last_calculated = data[data.length - 1].id
                     let tweets = self.sentimentAnalysis(data);
                     self.setState({ tweets: tweets, last_calculated: last_calculated });
@@ -40,11 +45,15 @@ class Landing extends React.Component {
         });
     }
 
+    // Called when the user clicks the 'More' button to render more tweets
     handleMore(e) {
         e.preventDefault();
         console.log('handleMore');
         let username = this.state.username;
         let self = this;
+
+        // AJAX call to grab next newest tweets by username; max_id is the ID of the oldest tweet 
+        // we currently have.
         $.ajax({
             url: '/v1/user/' + username + '/tweets',
             type: 'GET',
@@ -69,6 +78,7 @@ class Landing extends React.Component {
         return this.state.tweets !== nextState.tweets;
     }
 
+    // Accepts a list of a new tweets and returns each's text and sentiment value
     sentimentAnalysis(tweets) {
         let temp_tweets = tweets;
         for (let i = 0; i < temp_tweets.length; i++) {
@@ -82,17 +92,19 @@ class Landing extends React.Component {
         let rows = [];
         let color;
         let sentAve = 0;
+
+        // Dynamically build rows for the table
         tweets.forEach(function(tweet, index) {
             sentAve += tweet.sentiment.score;
             if (tweet.sentiment.score > 0) {
-                color = {color: 'yellowGreen'};
+                color = "positive";
             } else if (tweet.sentiment.score < 0) {
-                color = {color: 'lightCoral'};
+                color = "negative";
             } else {
-                color = {color: 'grey'};
+                color = "neutral";
             }
             rows.push(
-                <tr key={index} style={color}>
+                <tr key={ index } className={ color }>
                     <td>{ tweet.text }</td>
                     <td>{ 'Score: ' + tweet.sentiment.score + ', Comparative: ' + 
                     (Math.round(tweet.sentiment.comparative * 1000) / 1000) }</td>
@@ -121,10 +133,10 @@ class Landing extends React.Component {
                         <a href="http://www2.imm.dtu.dk/pubdb/views/publication_details.php?id=6010"> AFINN </a>
                          sentiment values<br/><span className="bold">Comparative:</span> Score / ( # of words )</p>
                     </div>
-                    { this.state.tweets.length > 0 ?
-                        <p>Based on their { this.state.tweets.length } latest original tweets,{'\n'}this user's 
-                        average sentiment is {sentAve > 0 ? <span className="positive">positive</span> : 
-                        <span className="negative">negative</span>} (Score: {Math.round(sentAve * 1000) / 1000}).
+                    { tweets.length > 0 ?
+                        <p>Based on their { tweets.length } latest original tweets,{'\n'}this user's 
+                        average sentiment is {sentAve > 0 ? <span className="positive bold">positive</span> : 
+                        <span className="negative bold">negative</span>} (Score: {Math.round(sentAve * 1000) / 1000}).
                         <br/><br/>
                         Click 'More' to view older tweets!</p>
                         : null
@@ -132,7 +144,7 @@ class Landing extends React.Component {
                 </div>
 
                 { 
-                    this.state.tweets.length > 0 ?
+                    tweets.length > 0 ?
                     (<div className="tweetTable">
                         <table>
                             <tbody>
